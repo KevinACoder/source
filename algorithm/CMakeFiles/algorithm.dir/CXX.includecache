@@ -1,0 +1,22 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/pi/WorkSpace/source/algorithm/AlgorithmConfig.h
+
+/home/pi/WorkSpace/source/algorithm/run.cpp
+stdio.h
+-
+stdlib.h
+-
+search.h
+/home/pi/WorkSpace/source/algorithm/search.h
+AlgorithmConfig.h
+/home/pi/WorkSpace/source/algorithm/AlgorithmConfig.h
+
+/home/pi/WorkSpace/source/algorithm/search.h
+
