@@ -1,1 +1,0 @@
-/usr/bin/c++      CMakeFiles/Algorithm.dir/run.cpp.o  -o Algorithm -rdynamic 
