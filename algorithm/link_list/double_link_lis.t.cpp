@@ -49,6 +49,8 @@ int main(int argc, char const *argv[])
 	sorted_insert(n2, &plist_header);
 	node* n3 = new node; n3->_data = 20;
 	sorted_insert(n3, &plist_header);
+
+	printf("insert done\n");
 	print_dll(plist_header);
 
 	return 0;
@@ -142,35 +144,46 @@ void insert_element(int ele, node** ref)
 void sorted_insert(node* ele, node** ref)
 {
 	if(!*ref) //null list
+		return;
+
+	node* pcurr = *ref;
+	node* pprev = null;
+	while(pcurr)
 	{
-		*ref = ele;
+		if(pcurr != *ref)
+			pprev = pcurr->_pprev;
+
+		if(pcurr->_data >= ele->_data)
+		{
+			//insert at head
+			if(pcurr == *ref)
+			{
+				*ref = ele;
+				ele->_pprev = null;
+				ele->_pnext = pcurr;
+				pcurr->pprev = ele;
+				return;
+			}
+			else
+			{
+				//insert at tail
+				if(pcurr->_pnext == null)
+				{
+					ele->_pnext = null;
+					pcurr->_pnext = ele;
+					ele->_pprev = pcurr;
+					return;
+				}
+				else //insert at middle	
+				{
+					ele->_pnext = pcurr;
+					pcurr->_pprev = ele;
+					pcurr->_pnext = ele;
+					ele->_pprev = pcurr;
+					return;
+				}
+			}		
+		}
+		pcurr = pcurr->_pnext;
 	}
-	else if((*ref)->_data > ele->_data) //insert at head
-	{
-		ele->_pnext = *ref;
-		(*ref)->_pprev = ele;
-		ref = &ele;
-	}
-	else
-	{
-		node* pcurr = *ref;
-
-		//move to find the first node greater or equal than ele
-		while(pcurr->_data < ele->_data && pcurr)
-			pcurr = pcurr->_pnext;
-
-		//ele to next
-		ele->_pnext = pcurr->_pnext;
-
-		//if next exist, its preve to ele
-		if(pcurr->_pnext)
-			ele->_pnext->_pprev = ele;
-
-		//insert ele at one node back than pcurr
-		pcurr->_pnext = ele;
-		ele->_pprev = pcurr;
-
-	}
-
-	return;
 }
