@@ -1,0 +1,3 @@
+19th May, 2018
+- singal_linked_list: delete node, check existance of loop
+- binary_tree: breath-first traversal
