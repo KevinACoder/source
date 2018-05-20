@@ -47,12 +47,31 @@ int main(int argc, char const *argv[])
 	//m_array_2d.print();
 
 	//string
-	sorted_array::string str("-153656");
-	str.print();
-	printf("%ld\n", str.atoi());
+	// sorted_array::string str("sdcfFRTo");
+	// str.print();
+	// printf("%ld\n", str.atoi());
 
-	str.itoa(123, 0);
+	// //str.itoa(123, 0);
+	// str.to_upper();
+	// str.print();
+
+	// str.itoa(1234);
+	// str.print();
+
+	// str.reverse();
+	// str.print();
+
+	sorted_array::string str("hello programming world");
 	str.print();
+	//str.reverse_words();
+	//str.print();
+
+	int val = 0x01;
+	bit_operations::set_bit(3, &val);
+	printf("val bef set %d, val aft set %d\n", 0x01, val);
+
+	int num = 49;
+	printf("%d divide 7 is %d\n", num, bit_operations::divide_7(&num));
 
 	return 0;
 }

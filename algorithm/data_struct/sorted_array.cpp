@@ -133,21 +133,101 @@ namespace sorted_array
 		return sign*num;
 	}
 
-	void string::itoa(long num, size_t bit)
+	void string::itoa(long num)
 	{
-		if(num == 0)
+		zero_memory(_data, _len);
+		//get all bits
+		long remain = num;
+		long bit = 0;
+
+		size_t ix = 0;
+		do
 		{
-			_data[0] = '0';
+			bit = remain%10;
+			remain = remain/10;
+			_data[ix] = '0' + bit;
+			++ix;
+
+			if(ix + 1 > _max_len)
+				re_allocate();
+
+		}while(remain > 0); //last ix pos would be empty to hold sign
+
+		_len = ix;
+
+		//reverse bits
+		for(size_t front = 0, back = ix; front < back; ++front, --back)
+		{
+			char tmp = _data[front];
+			_data[front] = _data[back];
+			_data[back] = tmp;
 		}
-		else if(num < 0)
+
+		//add sign
+		if(num >= 0)
 		{
-			_data[0] = '-';
-			itoa(abs(num), 1);
+			_data[0] = '+';
 		}
 		else
 		{
-			itoa(num/10, bit+1);
-			_data[bit] = num%10;
+			_data[0] = '-';
+		}
+	}
+
+	void string::to_upper()
+	{
+		for(size_t i = 0; i < _len; ++i)
+		{
+			if(_data[i] > 'a' && _data[i] < 'z')
+			{
+				_data[i] = _data[i] - 'a' + 'A'; 
+			}
+		}
+	}
+
+	void string::reverse()
+	{
+		//reverse bits
+		for(size_t front = 0, back = _len; front < back; ++front, --back)
+		{
+			char tmp = _data[front];
+			_data[front] = _data[back];
+			_data[back] = tmp;
+		}
+	}
+
+	void string::reverse_words()
+	{
+		//find seprated word
+		int back_word_ix = _len-1;
+		for(int word_ix = _len-1; word_ix >= 0; --word_ix) //back-ward look through
+		{
+			if(_data[word_ix] == ' ' || word_ix == 0) //if look throughed a whole word
+			{
+				printf("enter at %d\n", word_ix);
+				if(word_ix == 0)
+				{
+					for(size_t front = word_ix, back = back_word_ix; 
+						front < back; ++front, --back)
+					{
+						char tmp = _data[front];
+						_data[front] = _data[back];
+						_data[back] = tmp;
+					}
+				}
+				else
+				{
+					for(size_t front = word_ix+1, back = back_word_ix; 
+						front < back; ++front, --back)
+					{
+						char tmp = _data[front];
+						_data[front] = _data[back];
+						_data[back] = tmp;
+					}
+				}
+
+				back_word_ix = word_ix;
+			}
 		}
 	}
 };

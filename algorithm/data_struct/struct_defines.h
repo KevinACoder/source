@@ -142,7 +142,7 @@ public:
 			_data = null;
 		}
 	}
-	string(const char* str):_data(null),_len(0),_max_len(10),_resize_ratio(2)
+	string(const char* str):_data(null),_len(0),_max_len(30),_resize_ratio(2)
 	{
 		if(_data != str)
 		{
@@ -150,29 +150,26 @@ public:
 		_data = new char[_max_len];
 		zero_memory(_data, _max_len);
 		//printf("aft allocated\n");
-
-		// size_t len = 0;
-		// char* pstr = const_cast<char*>(str); //cast away consts
-		// while(pstr != '\0')
-		// {
-		// 	pstr = pstr + sizeof(char);
-		// 	++len;
-		// 	printf("len %d\n", len);
-		// }
 		size_t len = strlen(str);
 		
 		if(len + 1 > _max_len)
 			re_allocate();
 		
+		//printf("aft re-allocate\n");
 		for(size_t i = 0; i < len; ++i)
 			_data[i] = str[i];
 
 		_len = len;
+		printf("len is %d\n", _len);
 		}
 	}
+
 	void print();
 	long atoi();
-	void itoa(long num, size_t bit);
+	void itoa(long num);
+	void reverse();
+	void to_upper();
+	void reverse_words(); //reverse words seprated by space
 
 
 private:
@@ -203,6 +200,14 @@ private:
 	size_t	 _resize_ratio;
 };
 
+};
+
+namespace bit_operations
+{
+	#define BIT_MASK(n) (0x01 << (n))
+	void set_bit(size_t n, int* val);
+	void clear_bit(size_t n, int* val);
+	int divide_7(int* val);
 };
 
 #endif

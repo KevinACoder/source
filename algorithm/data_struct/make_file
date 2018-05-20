@@ -1,7 +1,7 @@
 #https://blog.csdn.net/zstu_zlj/article/details/53538816
 #make -f make_file 
-data_struct_demo: main.o singal_linked_list.o binary_tree.o sorted_array.o
-	g++ -o data_struct_demo main.o singal_linked_list.o binary_tree.o sorted_array.o
+data_struct_demo: main.o singal_linked_list.o binary_tree.o sorted_array.o bit_operations.o
+	g++ -o data_struct_demo main.o singal_linked_list.o binary_tree.o sorted_array.o bit_operations.o
 
 main.o: main.cpp struct_defines.h
 	g++ -c main.cpp
@@ -14,3 +14,6 @@ binary_tree.o: binary_tree.cpp struct_defines.h
 
 sorted_array.o: sorted_array.cpp struct_defines.h
 	g++ -c sorted_array.cpp
+
+bit_operations.o: bit_operations.cpp struct_defines.h
+	g++ -c bit_operations.cpp
