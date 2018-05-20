@@ -39,7 +39,20 @@ int main(int argc, char const *argv[])
 	m_array.insert(1);
 	m_array.insert(3);
 	//m_array.print();
-	m_array.print_unique();
+	//m_array.print_unique();
+
+	//2-d array
+	sorted_array::array_2d m_array_2d;
+	m_array_2d.populate_array();
+	//m_array_2d.print();
+
+	//string
+	sorted_array::string str("-153656");
+	str.print();
+	printf("%ld\n", str.atoi());
+
+	str.itoa(123, 0);
+	str.print();
 
 	return 0;
 }

@@ -67,7 +67,7 @@ namespace sorted_array
 
 	void array::re_allocate()
 	{
-		printf("reallocate\n");
+		//printf("reallocate\n");
 		_max_len = _max_len*_resize_ratio;
 		num* pndata = new num[_max_len];
 
@@ -78,5 +78,76 @@ namespace sorted_array
 
 		delete[] _data;
 		_data = pndata;
+	}
+
+	void array_2d::populate_array()
+	{
+		for(size_t i = 0; i < _height; ++i)
+		{
+			for(size_t j = 0; j < _width; ++j)
+			{
+				_data[i][j] = i+j;
+			}
+		}
+	}
+
+	void array_2d::print()
+	{
+		for(size_t i = 0; i < _height; ++i)
+		{
+			for(size_t j = 0; j < _width; ++j)
+			{
+				printf("[%d, %d] %d\n", i, j, _data[i][j]);
+			}	
+		}	
+	}
+
+	void string::print()
+	{
+		printf("%s\n", _data);
+	}
+
+	long string::atoi()
+	{
+		if(_len <1)
+			return 0;
+
+		int sign = 0; //sign of number
+		if(_data[0] == '-')
+			sign = -1;
+		else if(_data[0] == '+')
+			sign = 1;
+
+		long num = 0;
+		int bit = 0; //add sum of each bits' value
+		for(int i = _len-1; i > 0; --i)
+		{
+			if(_data[i] < '0' || _data[i] > '9') //check if it is integrate
+				return 0;
+
+			num += pow(10, bit)*(_data[i]-'0'); //0x30, 48
+			//printf("%c -> %ld x %d\n", _data[i], pow(10, bit), (int)(_data[i]-48));
+			++bit;
+		}
+
+		return sign*num;
+	}
+
+	void string::itoa(long num, size_t bit)
+	{
+		if(num == 0)
+		{
+			_data[0] = '0';
+		}
+		else if(num < 0)
+		{
+			_data[0] = '-';
+			itoa(abs(num), 1);
+		}
+		else
+		{
+			itoa(num/10, bit+1);
+			_data[bit] = num%10;
+		}
 	}
 };
