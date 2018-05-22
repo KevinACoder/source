@@ -1,0 +1,9 @@
+#make file for project linux c
+linuxc: main.o file_io.o
+	gcc -o linuxc main.o file_io.o
+
+main.o: main.c define.h
+	gcc -c main.c
+
+file_io.o: file_io.c define.h
+	gcc -c file_io.c
