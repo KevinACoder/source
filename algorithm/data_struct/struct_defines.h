@@ -5,8 +5,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
+#include <stdint.h>
 
 typedef int num;
+typedef uint32_t uint32;
 #define null NULL
 
 //struct_defines.h
@@ -18,14 +20,31 @@ namespace singal_linked_list
 		node* _pnext;
 
 		node():_pnext(NULL){}
+
+		size_t get_length()
+		{
+			size_t count = 0;
+			node* pcur = _pnext;
+
+			while(pcur)
+			{
+				++count;
+				pcur = pcur->_pnext;
+			}
+
+			return count;
+		}
 	};
 
 	node* populate_list();
 	void sorted_insert(num ele, node** ref);
-	void delete_node(num ele, node** ref); //cannot handle occasion that has loop
+	void delete_node(num ele, node** ref); 
 	void print_list(node* ref);
+	void print_list_reversly(node* ref);
 	bool check_if_loop_exist(node* ref);
 	node* find_the_nth_node_from_tail(node* ref, size_t n);
+
+	void josephu_problem();
 };
 
 namespace double_linked_list
@@ -202,12 +221,24 @@ private:
 
 };
 
+#define is_power_of_two(x) (x)?(!(x&(x-1))):0 //marco do not have name space
+//hostlong to network long, big end->little end
+#define _htonl(lb) \
+	((((uint32_t)(lb)&0xff000000) >> 24) | \
+	(((uint32_t)(lb)&0x00ff0000) >> 8) | \
+	(((uint32_t)(lb)&0x0000ff00) << 8) | \
+	(((uint32_t)(lb)&0x000000ff) << 24))
+
 namespace bit_operations
 {
 	#define BIT_MASK(n) (0x01 << (n))
 	void set_bit(size_t n, int* val);
 	void clear_bit(size_t n, int* val);
 	int divide_7(int* val);
+
+	size_t find_bits_of_one_in_number(int num);
+	bool is_number_little_end();
+
 };
 
 #endif

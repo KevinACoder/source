@@ -1,7 +1,44 @@
-//singal_linked_list.cpp
-#include "struct_defines.h"
+#include "linked_list.h"
+#include <stdlib.h>
+#include <stdio.h>
 
-namespace singal_linked_list
+using namespace linked_list;
+using namespace linked_list_test;
+
+int main(int argc, char const *argv[])
+{
+	/* code */
+	printf("linked_list\n");
+	test_merge_sorted_list();
+	return 0;
+}
+
+namespace linked_list_test
+{
+	using namespace linked_list;
+
+	void test_merge_sorted_list()
+	{
+		printf("rountie: <test_merge_sorted_list>\n");
+		node* plst1 = null;
+		node* plst2 = null;
+
+		sorted_insert(1, &plst1);
+		sorted_insert(2, &plst1);
+		sorted_insert(4, &plst1);
+		print_list(plst1);
+
+		sorted_insert(1, &plst2);
+		sorted_insert(3, &plst2);
+		sorted_insert(4, &plst2);
+		print_list(plst2);
+
+		node* psum = merge_sorted_list(plst1, plst2);
+		print_list(psum);
+	}
+};
+
+namespace linked_list
 {
 	node* populate_list()
 	{
@@ -169,25 +206,73 @@ namespace singal_linked_list
 		return pfirst;
 	}
 
-	void josephu_problem()
+	node* merge_sorted_list(node* lst1, node* lst2)
 	{
-		node* phead = NULL;
-		for(size_t i = 0； i < 16; ++i)
-		{
-			sorted_insert(i, &phead);
-		}
+		node* plst = null;
 
-		//get length
-		node* pcurr = phead;
-		node* pprev = null;
-		size_t len = pcurr->get_length();
-		for(size_t i = 1; i < len; ++i)
+		if(lst1 == null)
 		{
-			for(size_t j = 0; j < 3; ++j)
+			return lst2;
+		}
+		else if(lst2 == null)
+		{
+			return lst1;
+		}
+		else
+		{
+			node* p1 = lst1;
+			node* p2 = lst2;
+
+			if(p1->_data < p2->_data) //p1, p2 both are not null
 			{
-				pcurr = pcurr->_pnext;
+				plst = p1;
+				p1 = p1->_pnext;
+			}
+			else
+			{
+				plst = p2;
+				p2 = p2->_pnext;
+			}
+			//printf("create head\n");
+
+			node* pcurr = plst;
+
+			while(true)
+			{
+				//printf("round\n");
+				if(p1 == null && p2 == null) //merge finished
+					break;
+
+				if(p1 == null && p2 != null) //p1 finished
+				{
+					pcurr->_pnext = p2;
+					pcurr = pcurr->_pnext;
+					p2 = p2->_pnext;
+				}
+				else if(p1 != null && p2 == null) //p2 finished
+				{
+					pcurr->_pnext = p1;
+					pcurr = pcurr->_pnext;
+					p1 = p1->_pnext;
+				}
+				else //p1 and p2 not finished yet
+				{
+					if(p1 && p1->_data < p2->_data)
+					{
+						pcurr->_pnext = p1;
+						pcurr = pcurr->_pnext;
+						p1= p1->_pnext;
+					}
+					else
+					{
+						pcurr->_pnext = p2;
+						pcurr = pcurr->_pnext;
+						p2 = p2->_pnext;
+					}
+				}
 			}
 
+			return plst;
 		}
 	}
 };

@@ -73,5 +73,14 @@ int main(int argc, char const *argv[])
 	int num = 49;
 	printf("%d divide 7 is %d\n", num, bit_operations::divide_7(&num));
 
+	printf("0x%08x %s power of 2\n", 8, (is_power_of_two(8))?"is":"is not");
+	printf("0x%08x %s power of 2\n", 15, (is_power_of_two(15))?"is":"is not");
+
+	num = 0x00111100;
+	printf("0x%08x has %d bits of 1\n", num, bit_operations::find_bits_of_one_in_number(num));
+	uint32 unum = 0x11010000;
+	printf("0x%08x to 0x%08x\n", unum, _htonl(unum));
+
+	printf("is %s\n", bit_operations::is_number_little_end()?"little end":"big end");
 	return 0;
 }
