@@ -9,7 +9,9 @@ int main(int argc, char const *argv[])
 {
 	/* code */
 	printf("linked_list\n");
-	test_merge_sorted_list();
+	//test_merge_sorted_list();
+	//test_remove_duplicate_node();
+	test_snode();
 	return 0;
 }
 
@@ -35,6 +37,39 @@ namespace linked_list_test
 
 		node* psum = merge_sorted_list(plst1, plst2);
 		print_list(psum);
+	}
+
+	void test_remove_duplicate_node()
+	{
+		printf("rountie: <test_remove_duplicate_node>\n");
+		node* plst1 = null;
+		node* plst2 = null;
+
+		sorted_insert(1, &plst1);
+		sorted_insert(2, &plst1);
+		sorted_insert(4, &plst1);
+		print_list(plst1);
+
+		sorted_insert(1, &plst2);
+		sorted_insert(3, &plst2);
+		sorted_insert(4, &plst2);
+		print_list(plst2);
+
+		node* psum = merge_sorted_list(plst1, plst2);
+		print_list(psum);
+
+		//remove_duplicate_node(psum);
+		remove_duplicate_node_aft_sorted(psum);
+		print_list(psum);
+	}
+
+	void test_snode()
+	{
+		snode* pnode = new snode;
+		pnode->_data = '{';
+		pnode->push_back('a');
+		pnode->push_back('}');
+		pnode->print();
 	}
 };
 
@@ -182,8 +217,8 @@ namespace linked_list
 			if(pstep1 == pstep2 && pstep1 != null)
 				return true;
 
-		}while(pstep2 != null && pstep1 != null && pstep1->_pnext != null &&
-			pstep2->_pnext->_pnext != null);
+		}while(pstep2 != null && pstep1 != null && pstep1->_pnext != null && pstep2->_pnext != null
+			&& pstep2->_pnext->_pnext != null);
 
 		return false;
 	}
@@ -274,5 +309,105 @@ namespace linked_list
 
 			return plst;
 		}
+	}
+
+	void remove_duplicate_node(node* lst)
+	{
+		node* ptarg = lst;
+		node* pcurr = null;
+		node* pprev = null;
+
+		while(ptarg && ptarg->_pnext)
+		{
+
+			//search the whole list to find duplicates
+			pcurr = ptarg->_pnext;
+			pprev = ptarg;
+			while(pcurr)
+			{
+				if(pcurr->_data == ptarg->_data) 
+				{
+					//delete duplicates
+					pprev->_pnext = pcurr->_pnext;
+					delete pcurr;
+					pcurr = pprev;
+				}
+
+				pprev = pcurr;
+				pcurr = pcurr->_pnext;
+			}
+
+			ptarg = ptarg->_pnext;
+		}
+	}
+
+	void remove_duplicate_node_aft_sorted(node* lst)
+	{
+		if(!lst)
+			return;
+
+		node* pprev = lst;
+		node* pcurr = lst->_pnext;
+
+		while(pcurr)
+		{
+			if(pcurr->_data == pprev->_data)
+			{
+				pprev->_pnext = pcurr->_pnext;
+				delete pcurr;
+				pcurr = pprev;
+			}
+
+			pprev = pcurr;
+			pcurr = pcurr->_pnext;
+		}
+	}
+
+	void snode::push_back(char ch)
+	{
+		snode* pcurr = this;
+		snode* ptail = _pnext;
+
+		while(ptail)
+		{
+			pcurr = ptail;
+			ptail = ptail->_pnext;
+		}
+
+		ptail = new snode;
+		ptail->_data = ch;
+
+		pcurr->_pnext = ptail;
+	}
+
+	void snode::print()
+	{
+		snode* pcurr = this;
+		while(pcurr)
+		{
+			printf("%c", pcurr->_data);
+			pcurr = pcurr->_pnext;
+		}
+		printf("\n");
+	}
+
+	char snode::pop_back()
+	{
+		if(!_pnext)
+			return "";
+
+		snode* pcurr = this;
+		snode* pprev = null;
+		while(pcurr->_pnext)
+		{
+			pprev = pcurr;
+			pcurr = pcurr->_pnext;
+		}
+
+		char ch = pcurr->_data;
+		delete pcurr;
+		pprev->_pnext = null;
+
+		return ch;
 	}
 };

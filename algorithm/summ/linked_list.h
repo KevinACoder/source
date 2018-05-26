@@ -44,6 +44,19 @@ namespace linked_list
 	node* find_the_nth_node_from_tail(node* ref, size_t n);
 
 	node* merge_sorted_list(node* lst1, node* lst2);
+	void remove_duplicate_node(node* lst); //remove in unsorted list
+	void remove_duplicate_node_aft_sorted(node* lst);
+
+	struct snode
+	{
+		char   _data;
+		snode* _pnext;
+
+		snode():_pnext(null){}
+		void push_back(char ch);
+		char pop_back();
+		void print();
+	};
 };
 
 namespace linked_list_test
@@ -51,6 +64,9 @@ namespace linked_list_test
 	using namespace linked_list;
 
 	void test_merge_sorted_list();	
+	void test_remove_duplicate_node();
+
+	void test_snode();
 };
 
 #endif
