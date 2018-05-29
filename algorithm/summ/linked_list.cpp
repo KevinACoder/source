@@ -11,67 +11,12 @@ int main(int argc, char const *argv[])
 	printf("linked_list\n");
 	//test_merge_sorted_list();
 	//test_remove_duplicate_node();
-	test_snode();
+	//test_snode();
+	//test_reverse();
+	//test_delete_node();
+	test_list_is_palindrome();
 	return 0;
 }
-
-namespace linked_list_test
-{
-	using namespace linked_list;
-
-	void test_merge_sorted_list()
-	{
-		printf("rountie: <test_merge_sorted_list>\n");
-		node* plst1 = null;
-		node* plst2 = null;
-
-		sorted_insert(1, &plst1);
-		sorted_insert(2, &plst1);
-		sorted_insert(4, &plst1);
-		print_list(plst1);
-
-		sorted_insert(1, &plst2);
-		sorted_insert(3, &plst2);
-		sorted_insert(4, &plst2);
-		print_list(plst2);
-
-		node* psum = merge_sorted_list(plst1, plst2);
-		print_list(psum);
-	}
-
-	void test_remove_duplicate_node()
-	{
-		printf("rountie: <test_remove_duplicate_node>\n");
-		node* plst1 = null;
-		node* plst2 = null;
-
-		sorted_insert(1, &plst1);
-		sorted_insert(2, &plst1);
-		sorted_insert(4, &plst1);
-		print_list(plst1);
-
-		sorted_insert(1, &plst2);
-		sorted_insert(3, &plst2);
-		sorted_insert(4, &plst2);
-		print_list(plst2);
-
-		node* psum = merge_sorted_list(plst1, plst2);
-		print_list(psum);
-
-		//remove_duplicate_node(psum);
-		remove_duplicate_node_aft_sorted(psum);
-		print_list(psum);
-	}
-
-	void test_snode()
-	{
-		snode* pnode = new snode;
-		pnode->_data = '{';
-		pnode->push_back('a');
-		pnode->push_back('}');
-		pnode->print();
-	}
-};
 
 namespace linked_list
 {
@@ -101,7 +46,7 @@ namespace linked_list
 			*ref = new node;
 			(*ref)->_data = ele;
 		}
-		else if(ele < (*ref)->_data) //insert before head
+		else if(ele <= (*ref)->_data) //insert before head, equal also
 		{
 			//printf("insert bef\n");
 			node* nn = new node;
@@ -394,7 +339,7 @@ namespace linked_list
 	char snode::pop_back()
 	{
 		if(!_pnext)
-			return "";
+			return '\\';
 
 		snode* pcurr = this;
 		snode* pprev = null;
@@ -409,5 +354,60 @@ namespace linked_list
 		pprev->_pnext = null;
 
 		return ch;
+	}
+
+	void reverse(node** ref)
+	{
+		node* pprev = null;
+		node* pcurr = *ref;
+		node* pnext = null;
+
+		while(pcurr)
+		{
+			pnext = pcurr->_pnext; //store the next node
+			pcurr->_pnext = pprev; //reverse link
+			pprev = pcurr; //store the prev
+			pcurr = pnext; //move to the next
+		}
+
+		*ref = pprev;
+	}
+
+	node* delete_node(node* ref, num ele)
+	{
+		node* pcurr = ref;
+		node* pprev = null;
+		node* pnext = null;
+		node* phead = ref;
+
+		//if head needs to be deleted
+		while(pcurr && pcurr->_data == ele)
+		{
+			pnext = pcurr->_pnext;
+			delete pcurr;
+			pcurr = pnext;
+			phead = pcurr; //change head
+		}
+
+		//check if body elements needs to be deleted
+		while(pcurr)
+		{
+			//if do need to delete
+			while(pcurr && pcurr->_data != ele)
+			{
+				pprev = pcurr;
+				pcurr = pcurr->_pnext;
+			}
+
+			if(!pcurr) return phead;
+
+			//if do need to delete
+			pprev->_pnext = pcurr->_pnext;
+			delete pcurr;
+			pcurr = pprev->_pnext;
+		}
+
+		return phead;
+
 	}
 };

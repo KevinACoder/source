@@ -37,8 +37,11 @@ namespace linked_list
 	};
 
 	node* populate_list();
+	void insert(num ele, node** ref); //insert in a unsorted way
 	void sorted_insert(num ele, node** ref);
 	void delete_node(num ele, node** ref); 
+	node* delete_node(node* ref, num ele);
+
 	void print_list(node* ref);
 	bool check_if_loop_exist(node* ref);
 	node* find_the_nth_node_from_tail(node* ref, size_t n);
@@ -46,6 +49,9 @@ namespace linked_list
 	node* merge_sorted_list(node* lst1, node* lst2);
 	void remove_duplicate_node(node* lst); //remove in unsorted list
 	void remove_duplicate_node_aft_sorted(node* lst);
+
+	void reverse(node** ref);
+	bool check_if_is_palindrome(node* ref);
 
 	struct snode
 	{
@@ -56,6 +62,7 @@ namespace linked_list
 		void push_back(char ch);
 		char pop_back();
 		void print();
+
 	};
 };
 
@@ -65,6 +72,10 @@ namespace linked_list_test
 
 	void test_merge_sorted_list();	
 	void test_remove_duplicate_node();
+	void test_reverse();
+	void test_delete_node();
+
+	void test_list_is_palindrome();
 
 	void test_snode();
 };
