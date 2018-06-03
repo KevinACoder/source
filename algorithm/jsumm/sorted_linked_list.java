@@ -1,4 +1,7 @@
 //
+
+import java.util.*;
+
 class node
 {
 	int  _val;
@@ -201,6 +204,29 @@ class node
 
 		return nhead;
 	}
+
+	boolean is_palindrome(node head)
+	{
+		Stack<node> stack = new Stack<node>();
+
+		node cur = head;
+		while(cur != null)
+		{
+			stack.push(cur);
+			cur = cur._next;
+		}
+
+		cur = head;
+		while(cur != null)
+		{
+			if(cur._val != stack.pop()._val)
+				return false;
+
+			cur = cur._next;
+		}
+
+		return true;
+	}
 }
 
 public class sorted_linked_list
@@ -232,6 +258,8 @@ public class sorted_linked_list
 		//head = head.reverse_list(head);
 		//head = head.reverse_list(head, 1, 4);
 		head3 = head3.reverse_list(head3, 1, 2);
+
+		head3.is_palindrome(head3);
 		head.print();
 	}
 }

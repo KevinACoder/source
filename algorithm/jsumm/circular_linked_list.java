@@ -96,7 +96,6 @@ class node
 		while(get_len(head) > 1)
 		{
 			int start = (get_len(head)+1)%2;
-			
 		}
 	}
 
@@ -110,7 +109,7 @@ class node
 		}
 
 		print(head);
-		head = josephus_kill(head, 2);
+		//head = josephus_kill(head, 2);
 		print(head);
 	}
 }
