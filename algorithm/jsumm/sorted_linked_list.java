@@ -3,8 +3,23 @@ class node
 {
 	int  _val;
 	node _next;
-	node(int val){
-	this._val = val;
+	node(int val)
+	{
+		this._val = val;
+	}
+
+	Integer get_len(node head)
+	{
+		node cur = head;
+
+		Integer len = 0;
+		while(cur != null)
+		{
+			cur = cur._next;
+			++len;
+		}
+
+		return len;
 	}
 
 	void push(int val)
@@ -18,7 +33,8 @@ class node
 		curnode._next = new node(val);
 	}
 
-	void print(){
+	void print()
+	{
 		node curnode = this;
 		System.out.print("START\n");
 		while(curnode != null)
@@ -134,6 +150,57 @@ class node
 
 		return head;
 	}
+
+	node reverse_list(node head, Integer from, Integer to)
+	{
+		if(to > get_len(head) || from >= to)
+		{
+			return head;
+		}
+
+		node cur = head;
+		node pre = null; //one node previous the part to be reversed
+		node start = null;
+		node pos = null; //one node after the part to be reversed
+		node end = null;
+		Integer len = 0;
+		while(cur != null)
+		{
+			++len;
+			pre = (len == from-1)?cur:pre; //assign if it is the target node
+			start = (len == from)?cur:start;
+			pos = (len == to+1)?cur:pos;
+			end = (len == to)?cur:end;
+
+			cur = cur._next;
+		}
+
+		node nhead = (pre == null)?head:pre; //check if head need to be chged
+
+		//reverse part
+		{
+			end._next = null;
+			start = start.reverse_list(start);
+			end = start;
+			while(end._next != null)
+			{
+				end = end._next;
+			}
+		}
+
+		//re-assemble
+		if(pre == null)
+		{
+			head = start;
+		}
+		else
+		{
+			head._next = start;
+		}
+		end._next = pos;
+
+		return nhead;
+	}
 }
 
 public class sorted_linked_list
@@ -145,6 +212,8 @@ public class sorted_linked_list
 		head.push(3);
 		head.push(5);
 		head.push(7);
+		head.push(9);
+		head.push(11);
 		head.print();
 
 		node head2 = new node(2);
@@ -152,11 +221,17 @@ public class sorted_linked_list
 		head2.push(7);
 		head2.print();
 
+		node head3 = new node(1);
+		head3.push(2);
+		head3.push(3);
+
 		head2.print_common_part_in_sorted_list(head);
 
 		//head.remove_last_kth_node(4);
-		head.remove_middle_node();
-		head = head.reverse_list(head);
+		//head.remove_middle_node();
+		//head = head.reverse_list(head);
+		//head = head.reverse_list(head, 1, 4);
+		head3 = head3.reverse_list(head3, 1, 2);
 		head.print();
 	}
 }
