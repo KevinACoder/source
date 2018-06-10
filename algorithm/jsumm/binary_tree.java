@@ -12,7 +12,21 @@ public class binary_tree
 		//root.pre_order_recur(root);
 		//root.pre_order_traversal(root);
 		//root.in_order_traversal(root);
-		root.post_order_traversal(root);
+		//root.post_order_traversal(root);
+
+		bt_node root1 = new bt_node(1);
+		root1 = root1.push(root1, 2);
+		root1 = root1.push(root1, 3);
+
+		bt_node root2 = new bt_node(6);
+		root2 = root2.push(root2, 7);
+		root2 = root2.push(root2, 4);
+
+		bt_node root_merge = root1.merge_two_tree(root1, root2);
+		root_merge.pre_order_recur(root_merge);
+
+		root_merge.trim_tree(root_merge, 4, 5);
+		root_merge.pre_order_recur(root_merge);
 	}
 }
 
@@ -134,5 +148,72 @@ class bt_node //only one public class is alloweds in one java file
 
 		return list;
 	}
+
+	bt_node merge_two_tree(bt_node root1, bt_node root2)
+	{
+		if(root1 == null)
+			return root2;
+		else if(root2 == null)
+			return root1;
+		else
+		{
+			root1.val += root2.val;
+			root1.left = merge_two_tree(root1.left, root2.left);
+			root1.right = merge_two_tree(root1.right, root2.right);
+			return root1;
+		}
+
+	}
+
+	bt_node trim_tree(bt_node root, int low, int high)
+	{
+		//poster-order traversal
+		if(root == null)
+			return null;
+
+		root.left = trim_tree(root.left, low, high);
+		root.right = trim_tree(root.right, low, high);
+
+		if(root.val < low)
+			return root.right;
+		else if(root.val > high)
+			return root.left;
+
+		return root;
+	}
+
+	List<Double> average_levels(bt_node root)
+	{
+		// Deque<bt_node> q = new Deque<bt_node>();
+		// List<Double> res = new List<Double>();
+
+		// if(root == null)
+		// 	return res;
+
+		// q.add(root);
+
+		// while(!q.isEmpty())
+		// {
+		// 	Double sum = 0.0, count = 0.0;
+		// 	Deque<bt_node> temp = new Deque<bt_node>();
+
+		// 	while(!q.isEmpty())
+		// 	{
+		// 		bt_node node = q.peek();
+		// 		q.remove();
+		// 		sum += node.val; ++count;
+		// 		if(node.left != null)
+		// 			temp.add(node.left);
+		// 		if(node.right != null)
+		// 			temp.add(node.right);
+		// 	}
+		// 	q = temp; //next level
+		// 	res.add(sum/count);
+		// }
+
+		// return res;
+	}
+
+	
 
 }
