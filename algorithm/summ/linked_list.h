@@ -2,15 +2,6 @@
 #define LINKED_LIST_HEADER
 
 #include "defines.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <math.h>
-#include <stdint.h>
-
-typedef int num;
-typedef uint32_t uint32;
-#define null NULL
 
 namespace linked_list
 {
@@ -37,7 +28,8 @@ namespace linked_list
 	};
 
 	node* populate_list();
-	void insert(num ele, node** ref); //insert in a unsorted way
+	void insert(num ele, node** ref); //insert in a unsorted way, insert head
+	void insert_head(num ele, node** ref); //insert at head
 	void sorted_insert(num ele, node** ref);
 	void delete_node(num ele, node** ref); 
 	node* delete_node(node* ref, num ele);
@@ -53,6 +45,9 @@ namespace linked_list
 	void reverse(node** ref);
 	bool check_if_is_palindrome(node* ref);
 
+	node* find_intersection_of_two_linked_list(node* lst1, node* lst2);
+	node* add_two_list_of_numbers(node* num1, node* num2);
+
 	struct snode
 	{
 		char   _data;
@@ -64,6 +59,18 @@ namespace linked_list
 		void print();
 
 	};
+
+	struct ListNode
+	{
+	  int val;
+      ListNode *next;
+      ListNode(int x) : val(x), next(NULL) {}
+	};
+	typedef ListNode list_node;
+	void insert_back(int ele, list_node** ref);
+	void insert_front(int ele, list_node** ref);
+	void print_list(list_node* head);
+	list_node* partition(list_node* head, int x);
 };
 
 namespace linked_list_test
@@ -74,10 +81,11 @@ namespace linked_list_test
 	void test_remove_duplicate_node();
 	void test_reverse();
 	void test_delete_node();
-
 	void test_list_is_palindrome();
-
 	void test_snode();
+	void test_find_intersection_of_two_linked_list();
+	void test_add_two_list_of_numbers();
+	void test_partition();
 };
 
 #endif

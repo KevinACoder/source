@@ -14,7 +14,9 @@ int main(int argc, char const *argv[])
 	//test_snode();
 	//test_reverse();
 	//test_delete_node();
-	test_list_is_palindrome();
+	//test_list_is_palindrome();
+	//test_add_two_list_of_numbers();
+	test_partition();
 	return 0;
 }
 

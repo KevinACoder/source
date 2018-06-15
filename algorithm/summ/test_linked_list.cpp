@@ -101,4 +101,34 @@ namespace linked_list_test
 		pnode->push_back('}');
 		pnode->print();
 	}
+
+	void test_add_two_list_of_numbers()
+	{
+		node* num1 = null;
+		node* num2 = null;
+
+		insert(7, &num1);
+		insert(2, &num1);
+		insert(4, &num1);
+		insert(3, &num1);
+
+		insert(5, &num2);
+		insert(6, &num2);
+		insert(4, &num2);
+
+		node* num_sum = add_two_list_of_numbers(num1, num2);
+		print_list(num_sum);
+	}
+
+	void test_partition()
+	{
+		list_node* lst = null;
+		insert_back(1, &lst);
+		insert_back(3, &lst);
+		insert_back(5, &lst);
+		insert_back(6, &lst);
+		insert_back(2, &lst);
+		list_node* res = partition(lst, 3);
+		print_list(res);
+	}
 };
