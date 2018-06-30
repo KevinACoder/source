@@ -1,0 +1,7 @@
+#ifndef STRUCT_DEFINES_LEETCODE
+#define STRUCT_DEFINES_LEETCODE
+
+
+
+
+#endif
