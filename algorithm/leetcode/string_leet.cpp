@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include <algorithm>
+#include <map>
 #include <limits.h>
 #include "struct_defines_leet.h"
 using namespace std;
@@ -104,7 +105,89 @@ string add_binary(string a, string b)
 
 string longest_common_prefix(vector<string>& strs)
 {
+	if(strs.empty()) return "";
 
-	return "";
+	for(int ix = 0; ix < strs[0].size(); ++ix)
+	{
+		for(vector<string>::iterator it = strs.begin(); 
+			it != strs.end(); ++it)
+		{
+			if((*it)[ix] != strs[0][ix])
+				return strs[0].substr(0, ix);
+		}
+	}
+
+	return strs[0];
 }
+
+bool isNumber(char const* s)
+{
+	char* pend = NULL;
+	strtod(s, &pend);
+
+	if(pend == s)
+		return false;
+
+	while(*pend)
+	{
+		if(!isspace(*pend))
+			return false;
+		++pend;
+	}
+
+	return true;
+}
+
+string int_to_roman(int num)
+{
+	static const int radix[] = {1000, 900, 500, 400, 100, 90,
+	50, 40, 10, 9, 5, 4, 1};
+	static const string symbol[] = {"M", "CM", "D", "CD", "C", "XC",
+	"L", "XL", "X", "IX", "V", "IV", "I"};
+
+	string roman;
+	int i = 0;
+	while(num > 0)
+	{
+		int count = num/radix[i];
+		num %= radix[i];
+		while(count > 0)
+		{
+			roman += symbol[i];
+			--count;
+		}
+		++i;
+	}
+
+	return roman;
+}
+
+int roman_to_int(string s)
+{
+	static bool binit = false;
+	static map<char, int> map_roman;
+	if(!binit)
+	{
+		map_roman['I'] = 1;
+		map_roman['V'] = 5;
+		map_roman['X'] = 10;
+		map_roman['L'] = 50;
+		map_roman['C'] = 100;
+		map_roman['D'] = 500;
+		map_roman['M'] = 1000;
+		binit = true;
+	}
+
+	int res = 0;
+	for(size_t i = 0; i < s.size(); ++i)
+	{
+		if(i > 0 && map_roman[s[i]] > map_roman[s[i-1]])
+			res += map_roman[s[i]] - 2*map_roman[s[i-1]];
+		else
+			res += map_roman[s[i]];
+	}
+
+	return res;
+}
+
 
