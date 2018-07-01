@@ -1,8 +1,10 @@
 #include <iostream>
+#include <sstream>
 #include <string>
 #include <vector>
 #include <algorithm>
 #include <map>
+#include <stack>
 #include <limits.h>
 #include "struct_defines_leet.h"
 using namespace std;
@@ -190,4 +192,107 @@ int roman_to_int(string s)
 	return res;
 }
 
+vector<vector<string> > group_anagrams(vector<string>& strs)
+{
+	typedef vector<string> vec_1d;
+	typedef vector<vector<string> > vec_2d;
+	typedef map<string, vector<string> > map_str;
+	map_str group;
+	vec_1d group_keys;
+	for(vec_1d::iterator it = strs.begin(); it != strs.end(); ++it)
+	{
+		string skey = *it;
+		sort(skey.begin(), skey.end());
+		group[skey].push_back(*it);
+		if(group_keys.end() == find(group_keys.begin(), group_keys.end(), skey))
+			group_keys.push_back(skey);
+	}
 
+	vec_2d res;
+	for(vec_1d::iterator it_key = group_keys.begin(); it_key != group_keys.end(); ++it_key)
+	{
+		vec_1d rec;
+		for(vec_1d::iterator it_group_item = group[*it_key].begin(); 
+			it_group_item != group[*it_key].end(); ++it_group_item)
+		{
+			rec.push_back(*it_group_item);
+		}
+
+		res.push_back(rec);
+	}
+
+	return res;
+}
+
+string simplify_path(string& path)
+{
+	typedef vector<string> vec_1d;
+	vec_1d dirs;
+
+	for(auto it_1 = path.begin(); it_1 != path.end(); ) 
+	{
+		++it_1;
+		auto it_2 = find(it_1, path.end(), '/');
+		auto dir = string(it_1, it_2);
+
+		if(!dir.empty() && dir != ".")
+		{
+			if(dir == "..")
+			{
+				if(!dirs.empty()) 
+					dirs.pop_back();
+			}
+			else
+				dirs.push_back(dir);
+			
+		}
+
+		it_1 = it_2;
+	}
+
+	stringstream res;
+	if(dirs.empty())
+		res<<"/";
+	else
+	{
+		for(vec_1d::iterator it = dirs.begin(); it != dirs.end(); ++it)
+		    res<<"/"<<*it;
+	}
+
+	return res.str();
+}
+
+int length_of_lasy_word(string s)
+{
+	string::reverse_iterator it_start_of_last_word = find_if(s.rbegin(), 
+		s.rend(), ::isalpha);
+	string::reverse_iterator it_end_of_last_word = find_if_not(it_start_of_last_word, s.rend(), 
+		::isalpha);
+	return distance(it_start_of_last_word, it_end_of_last_word);
+}
+
+bool is_valid_parenthese(string s)
+{
+	static const string left_symbol = "[({";
+	static const string right_symbol = "])}";
+	stack<char> chstack;
+
+	for(string::iterator it = s.begin(); it != s.end(); ++it)
+	{
+		if(find(left_symbol.begin(), left_symbol.end(), *it) != left_symbol.end())
+		//if(left_symbol.find(it) != string::npos)
+		{
+			chstack.push(*it);
+		}
+		else //if(find(right_symbol.begin(), right_symbol.end(), *it) != right_symbol.end())
+		{
+			if(chstack.empty() || chstack.top() != left_symbol[right_symbol.find(*it)])
+			//if((chstack.empty()) || chstack.top() != )
+				return false;
+			else
+				chstack.pop();
+		}
+	}
+
+	return chstack.empty();
+}
